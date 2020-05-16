@@ -114,6 +114,8 @@ def ecg_findpeaks(ecg_cleaned, sampling_rate=1000, method="neurokit", show=False
         rpeaks = _ecg_findpeaks_kalidas(ecg_cleaned, sampling_rate)
     elif method in ["martinez2003", "martinez"]:
         rpeaks = _ecg_findpeaks_WT(ecg_cleaned, sampling_rate)
+    elif method in ["asi_segmenter", "asi"]:
+        rpeaks = _ecg_findpeaks_asi(ecg_cleaned, sampling_rate)
     else:
         raise ValueError("NeuroKit error: ecg_findpeaks(): 'method' should be "
                          "one of 'neurokit' or 'pamtompkins'.")
