@@ -12,7 +12,7 @@ from ..stats import standardize
 def signal_fixpeaks(peaks, sampling_rate=1000, iterative=True, show=False,
                     interval_min=None, interval_max=None,
                     relative_interval_min=None, relative_interval_max=None,
-                    robust=False, method="Kubios"):
+                    robust=False, medfilt_order = 20, method="asi"):
     """Correct erroneous peak placements.
 
     Identify and correct erroneous peak placements based on outliers in
@@ -143,6 +143,12 @@ def signal_fixpeaks(peaks, sampling_rate=1000, iterative=True, show=False,
             _plot_artifacts_lipponen2019(artifacts, subspaces)
 
         return artifacts, peaks_clean
+
+    elif method.lower() == "asi":
+
+        peaks_clean = rr_artifacts(peaks, medfilt_order,sampling_rate=10000)
+
+        return peaks_clean
 
     elif method.lower() == "neurokit":
 
@@ -577,3 +583,12 @@ def _period_to_location(period, sampling_rate=1000, first_location=0):
     location = np.cumsum(period * sampling_rate)
     location = location - (location[0] - first_location)
     return location.astype(np.int)
+
+
+
+
+def rr_artifacts(peaks, medfilt_order,sampling_rate=10000):
+    df = pd.DataFrame({'signal': peaks})
+    medrr = df.rolling(medfilt_order, center=True,
+                       min_periods=1).median().signal.to_numpy()
+    return medrr

@@ -22,12 +22,11 @@ def open_file(filename, show):
     # Input: data file name
     # e.g  "Activities/20200510-TR-Belt.txt"
     
-    
     # add path of the data
-    sys.path.append('/Users/tiagorodrigues/Universidade de Lisboa/Ana Luisa Nobre Fred - TiagoRodrigues_EPFL_FieldWiz_tese_2020/Data/')
+    sys.path.append('/Users/tiagorodrigues/OneDrive - Universidade de Lisboa/Ana Luisa Nobre Fred - TiagoRodrigues_EPFL_FieldWiz_tese_2020/Data/')
 
     # name of the file
-    data_folder = Path("/Users/tiagorodrigues/Universidade de Lisboa/Ana Luisa Nobre Fred - TiagoRodrigues_EPFL_FieldWiz_tese_2020/Data")
+    data_folder = Path("/Users/tiagorodrigues/OneDrive - Universidade de Lisboa/Ana Luisa Nobre Fred - TiagoRodrigues_EPFL_FieldWiz_tese_2020/Data")
     file_to_open = data_folder / filename
 
 
@@ -38,7 +37,6 @@ def open_file(filename, show):
     line = f.readline()
     header = line.replace("\n", "")
     
-    
     # import ecg data
     ecg_fieldwiz = np.genfromtxt(file_to_open) 
     time = np.arange(0, len(ecg_fieldwiz)/250, 1/250)
@@ -46,11 +44,11 @@ def open_file(filename, show):
     
     # plot ECG
     if show == 1:
-        plt.figure(figsize=(10, 5), dpi=100);
-        plt.plot(time,ecg_fieldwiz);
-        plt.ylabel("ECG (16-bit)");
-        plt.xlabel("Time (s)");
-        plt.title('Raw ECG', fontdict=None, loc='center', pad=None);
+        plt.figure(figsize=(10, 5), dpi=100)
+        plt.plot(time,ecg_fieldwiz)
+        plt.ylabel("ECG (16-bit)")
+        plt.xlabel("Time (s)")
+        plt.title('Raw ECG', fontdict=None, loc='center', pad=None)
     
     return header,ecg_fieldwiz,time
     

@@ -20,7 +20,7 @@ def ecg_peaks(ecg_cleaned, sampling_rate=1000, method="neurokit",
     method : string
         The algorithm to be used for R-peak detection. Can be one of 'neurokit' (default),
         'pamtompkins1985', 'hamilton2002', 'christov2004', 'gamboa2008', 'elgendi2010',
-        'engzeemod2012' or 'kalidas2017'.
+        'engzeemod2012', 'kalidas2017' or 'rodrigues2020'.
     correct_artifacts : bool
         Whether or not to identify artifacts as defined by Jukka A. Lipponen &
         Mika P. Tarvainen (2019): A robust algorithm for heart rate
