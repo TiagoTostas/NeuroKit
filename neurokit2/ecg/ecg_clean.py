@@ -71,7 +71,7 @@ def ecg_clean(ecg_signal, sampling_rate=1000, method="neurokit"):
         clean = _ecg_clean_engzee(ecg_signal, sampling_rate)
     elif method in ["christov", "christov2004", "ssf", "slopesumfunction", "zong",
                     "zong2003", "kalidas2017", "swt", "kalidas", "kalidastamil",
-                    "kalidastamil2017"]:
+                    "kalidastamil2017","asi"]:
         clean = ecg_signal
     else:
         raise ValueError("NeuroKit error: ecg_clean(): 'method' should be "

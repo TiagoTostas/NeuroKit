@@ -67,7 +67,7 @@ def ecg_peaks(ecg_cleaned, sampling_rate=1000, method="neurokit",
     if correct_artifacts:
         _, rpeaks = signal_fixpeaks(rpeaks,
                                     sampling_rate=sampling_rate,
-                                    iterative=True, method="Kubios")
+                                    iterative=False, method="Kubios")
 
         rpeaks = {"ECG_R_Peaks": rpeaks}
 
