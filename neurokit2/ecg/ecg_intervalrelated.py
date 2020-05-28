@@ -26,7 +26,7 @@ def ecg_intervalrelated(data, sampling_rate=1000):
         A dataframe containing the analyzed ECG features. The analyzed
         features consist of the following:
         - *"ECG_Rate_Mean"*: the mean heart rate.
-        - *"ECG_HRV"*: the different heart rate variability metrices.
+        - *"ECG_HRV"*: the different heart rate variability metrics.
         See `hrv_summary()` docstrings for details.
 
     See Also
