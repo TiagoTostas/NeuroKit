@@ -5,7 +5,7 @@ from ..signal import signal_formatpeaks, signal_fixpeaks
 
 
 def ecg_peaks(ecg_cleaned, sampling_rate=1000, method="neurokit",
-              correct_artifacts=False):
+              correct_artifacts=False,methodcorrect = 'kubios'):
     """Find R-peaks in an ECG signal.
 
     Find R-peaks in an ECG signal using the specified method.
@@ -65,11 +65,21 @@ def ecg_peaks(ecg_cleaned, sampling_rate=1000, method="neurokit",
                            method=method)
 
     if correct_artifacts:
-        _, rpeaks = signal_fixpeaks(rpeaks,
-                                    sampling_rate=sampling_rate,
-                                    iterative=False, method="Kubios")
+        if methodcorrect == 'kubios':
+            _, rpeaks = signal_fixpeaks(rpeaks,
+                                        sampling_rate=sampling_rate,
+                                        iterative=False, 
+                                        method=methodcorrect)
 
-        rpeaks = {"ECG_R_Peaks": rpeaks}
+            rpeaks = {"ECG_R_Peaks": rpeaks}
+
+
+        elif methodcorrect == 'asi':
+            rpeaks = signal_fixpeaks(rpeaks,
+                                    sampling_rate=sampling_rate,
+                                    iterative=False, 
+                                    method=methodcorrect)
+            rpeaks = {"ECG_R_Peaks": rpeaks}
 
     instant_peaks = signal_formatpeaks(rpeaks,
                                        desired_length=len(ecg_cleaned),
