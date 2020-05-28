@@ -5,10 +5,12 @@
 
 
 import sys
-sys.path.append('/Users/tiagorodrigues/Documents/GitHub/NeuroKit')
+#sys.path.append('/Users/tiagorodrigues/Documents/GitHub/NeuroKit')
+sys.path.append(r"C:\Users\Tiago Rodrigues\Documents\GitHub\Neurokit")
 
 import numpy as np
 import pandas as pd
+import os
 import json
 import matplotlib.pyplot as plt
 import neurokit2 as nk
@@ -23,11 +25,12 @@ def open_file(filename, show):
     # e.g  "Activities/20200510-TR-Belt.txt"
     
     # add path of the data
-    sys.path.append('/Users/tiagorodrigues/OneDrive - Universidade de Lisboa/Ana Luisa Nobre Fred - TiagoRodrigues_EPFL_FieldWiz_tese_2020/Data/')
-
+    #sys.path.append('/Users/tiagorodrigues/OneDrive - Universidade de Lisboa/Ana Luisa Nobre Fred - TiagoRodrigues_EPFL_FieldWiz_tese_2020/Data/')
+    sys.path.append(r"C:\Users\Tiago Rodrigues\Universidade de Lisboa\Ana Luisa Nobre Fred - TiagoRodrigues_EPFL_FieldWiz_tese_2020\Data\Activities")
+    
     # name of the file
-    data_folder = Path("/Users/tiagorodrigues/OneDrive - Universidade de Lisboa/Ana Luisa Nobre Fred - TiagoRodrigues_EPFL_FieldWiz_tese_2020/Data")
-    file_to_open = data_folder / filename
+    data_folder = Path(r"C:\Users\Tiago Rodrigues\Universidade de Lisboa\Ana Luisa Nobre Fred - TiagoRodrigues_EPFL_FieldWiz_tese_2020\Data\Activities")
+    file_to_open = os.path.join(data_folder, filename)
 
 
     # import header json file
