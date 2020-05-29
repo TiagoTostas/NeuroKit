@@ -20,18 +20,17 @@ from pathlib import Path
 # ==== Helper functions ====
 
 
-def open_file(filename, show):
+def open_file(typeactivity,dayactivity, show):
     # Input: data file name
     # e.g  "Activities/20200510-TR-Belt.txt"
     
     # add path of the data
     #sys.path.append('/Users/tiagorodrigues/OneDrive - Universidade de Lisboa/Ana Luisa Nobre Fred - TiagoRodrigues_EPFL_FieldWiz_tese_2020/Data/')
-    sys.path.append(r"C:\Users\Tiago Rodrigues\Universidade de Lisboa\Ana Luisa Nobre Fred - TiagoRodrigues_EPFL_FieldWiz_tese_2020\Data\Activities")
+    sys.path.append(r"C:\Users\Tiago Rodrigues\Universidade de Lisboa\Ana Luisa Nobre Fred - TiagoRodrigues_EPFL_FieldWiz_tese_2020\Data")
     
     # name of the file
-    data_folder = Path(r"C:\Users\Tiago Rodrigues\Universidade de Lisboa\Ana Luisa Nobre Fred - TiagoRodrigues_EPFL_FieldWiz_tese_2020\Data\Activities")
-    file_to_open = os.path.join(data_folder, filename)
-
+    data_folder = Path(r"C:\Users\Tiago Rodrigues\Universidade de Lisboa\Ana Luisa Nobre Fred - TiagoRodrigues_EPFL_FieldWiz_tese_2020\Data")   
+    file_to_open = os.path.join(data_folder, typeactivity,dayactivity)
 
     # import header json file
     f = open(file_to_open) 
