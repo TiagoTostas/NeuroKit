@@ -47,8 +47,6 @@ def _signal_from_indices(indices, desired_length=None, value=1):
 
 
 
-
-
 def _signal_formatpeaks_sanitize(peaks, desired_length=None, key="Peaks"):
     # Attempt to retrieve column.
     if isinstance(peaks, tuple):
