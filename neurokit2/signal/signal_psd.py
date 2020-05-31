@@ -85,7 +85,7 @@ def signal_psd(signal, sampling_rate=1000, method="welch", show=True, min_freque
 
         # in case duration of recording is not sufficient
         if nperseg > len(signal) / 2:
-            print("Neurokit warning: signal_psd(): The duration of recording is too short to support a sufficiently long window for high frequency resolution. Consider using a longer recording or increasing the `min_frequency`")
+            #print("Neurokit warning: signal_psd(): The duration of recording is too short to support a sufficiently long window for high frequency resolution. Consider using a longer recording or increasing the `min_frequency`")
             nperseg = int(len(signal / 2))
 
         frequency, power = scipy.signal.welch(signal,
