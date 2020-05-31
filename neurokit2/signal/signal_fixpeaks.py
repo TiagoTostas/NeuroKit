@@ -98,7 +98,7 @@ def signal_fixpeaks(peaks, sampling_rate=1000, iterative=True, show=False,
     >>>                                      interval_min=0.5,
     >>>                                      interval_max=1.5,
     >>>                                      method="Neurokit")
-    >>> # Plot and shift original peaks to the rightto see the difference.
+    >>> # Plot and shift original peaks to the right to see the difference.
     >>> nk.events_plot([peaks + 50, peaks_corrected], signal)
 
     References
@@ -144,11 +144,13 @@ def signal_fixpeaks(peaks, sampling_rate=1000, iterative=True, show=False,
 
         return artifacts, peaks_clean
 
-    elif method.lower() == "asi":
+    
+    elif method.lower() == "asi":   
 
-        peaks_clean = rr_artifacts(peaks, medfilt_order,sampling_rate=10000)
+        peaks_clean = rr_artifacts(peaks,sampling_rate=1000)
 
         return peaks_clean
+
 
     elif method.lower() == "neurokit":
 
@@ -180,12 +182,13 @@ def _find_artifacts(peaks, c1=0.13, c2=0.17, alpha=5.2, window_width=91,
     # Compute dRRs: time series of differences of consecutive periods (dRRs).
     drrs = np.ediff1d(rr, to_begin=0)
     drrs[0] = np.mean(drrs[1:])
+
+
+    np.seterr(divide='ignore',invalid='ignore')
     # Normalize by threshold.
     th1 = _compute_threshold(drrs, alpha, window_width)
     drrs /= th1
-
-    # ignore division by 0 warning
-    np.seterr(divide='ignore',invalid='ignore')
+    
 
     # Cast dRRs to subspace s12.
     # Pad drrs with one element.
@@ -363,6 +366,7 @@ def _correct_missed(missed_idcs, peaks):
     valid_idcs = np.logical_and(missed_idcs > 1,
                                 missed_idcs < len(corrected_peaks))
     missed_idcs = missed_idcs[valid_idcs]
+    
     prev_peaks = corrected_peaks[[i - 1 for i in missed_idcs]]
     next_peaks = corrected_peaks[missed_idcs]
     added_peaks = prev_peaks + (next_peaks - prev_peaks) / 2
@@ -585,10 +589,33 @@ def _period_to_location(period, sampling_rate=1000, first_location=0):
     return location.astype(np.int)
 
 
+#==================================
+# Based in RR-intervals differences
+#==================================
+def rr_artifacts(peaks,sampling_rate=1000):
+
+    # Taking the derivative and median
+    rr_intervals = np.ediff1d(peaks, to_begin=0)
+    rr_intervals[0] = np.mean(rr_intervals[1:])
+
+    # Moving average 11 samples
+    df = pd.DataFrame({'signal': rr_intervals})
+    medrr = df.rolling(11, center=True,min_periods=1).median().signal.to_numpy()
+
+    # Relative difference between rr-intervals and medianRR
+    relative_difference = np.subtract(rr_intervals,medrr)
+    module = np.absolute(relative_difference)
+    absolute_difference = np.divide(module, medrr)
+
+    # Replace outliers by nan
+    replaced = np.where(absolute_difference > 0.2, np.nan,rr_intervals)
+
+    # Interpolate 
+    peaks_clean = pd.Series(replaced).interpolate(method='spline',order=3).values
+    
+    # Return peak positions as int
+    peaks_clean = np.nancumsum(peaks_clean)
+    peaks_clean = peaks_clean.astype(np.int64)
 
 
-def rr_artifacts(peaks, medfilt_order,sampling_rate=10000):
-    df = pd.DataFrame({'signal': peaks})
-    medrr = df.rolling(medfilt_order, center=True,
-                       min_periods=1).median().signal.to_numpy()
-    return medrr
+    return peaks_clean
