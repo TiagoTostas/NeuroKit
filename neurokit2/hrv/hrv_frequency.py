@@ -109,19 +109,30 @@ def hrv_frequency(peaks, sampling_rate=1000, ulf=(0, 0.0033),
 
     out = power.to_dict(orient="index")[0]
 
-    if silent is False:
-        for frequency in out.keys():
-            if out[frequency] == 0.0:
-                print("Neurokit warning: hrv_frequency(): The duration of recording is too short to allow reliable computation of signal power in frequency band " + frequency + ". Its power is returned as zero.")
+    
 
-    # Normalized
-    total_power = np.sum(power.values)
-    out["LFHF"] = out["LF"] / out["HF"]
-    out["LFn"] = out["LF"] / total_power
-    out["HFn"] = out["HF"] / total_power
+ #   if silent is True:
+ #       for frequency in out.keys():
+ #           if out[frequency] == 0.0:
+ #               print("Neurokit warning: hrv_frequency(): The duration of recording is too short to allow reliable computation of signal power in frequency band " + frequency + ". Its power is returned as zero.")
+                   
+    if out["HF"] != 0:
+        # Normalized
+        total_power = np.sum(power.values)
+        out["LFHF"] = out["LF"] / out["HF"]
+        out["LFn"] = out["LF"] / total_power
+        out["HFn"] = out["HF"] / total_power
 
-    # Log
-    out["LnHF"] = np.log(out["HF"])
+        # Log
+        out["LnHF"] = np.log(out["HF"])
+    
+    else:
+        # Normalized
+        total_power = np.nan
+        out["LFHF"] = np.nan
+        out["LFn"] = np.nan
+        out["HFn"] = np.nan
+        out["LnHF"] = np.nan    
 
     # Show plot
     if show:
