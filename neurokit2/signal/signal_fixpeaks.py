@@ -589,9 +589,9 @@ def _period_to_location(period, sampling_rate=1000, first_location=0):
     return location.astype(np.int)
 
 
-#==================================
+#===================================================
 # Based in RR-intervals differences
-#==================================
+#===================================================
 def rr_artifacts(peaks,sampling_rate=1000):
 
     # Taking the derivative and median
@@ -616,6 +616,5 @@ def rr_artifacts(peaks,sampling_rate=1000):
     # Return peak positions as int
     peaks_clean = np.nancumsum(peaks_clean)
     peaks_clean = peaks_clean.astype(np.int64)
-
 
     return peaks_clean
