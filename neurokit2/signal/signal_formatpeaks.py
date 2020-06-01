@@ -37,6 +37,7 @@ def _signal_from_indices(indices, desired_length=None, value=1):
 
 
     if isinstance(value, int) or isinstance(value, float):
+        indices = indices[:-1]
         signal[indices] = value
     else:
         if len(value) != len(indices):
@@ -73,7 +74,6 @@ def _signal_formatpeaks_sanitize(peaks, desired_length=None, key="Peaks"):
             raise TypeError("NeuroKit error: _signal_formatpeaks(): wrong type of input ",
                             "provided. Please provide indices of peaks.")
         peaks = peaks[col[0]]
-
 
 
     # Retrieve length.
